@@ -9,15 +9,15 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       //
       // ここに下記のコードを記述してください。
       //
-      // promise.then(function(msg) {
-      //   expect(msg).to.equal('resolved!');
-      //   testDone();
-      // });
+      promise.then(function(msg) {
+        expect(msg).to.equal('resolved!');
+        testDone();
+      });
     });
 
 
     it('reject ハンドラーを書ける', function(testDone){
-      var promise = Promise.reject('rejected!');
+      // var promise = Promise.reject('rejected!');
 
       // reject ハンドラーを使って、下の assertion が promise の
       // エラー値を検証できるように記述してください。
@@ -26,6 +26,13 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       // testDone();
 
       // ここにコードを記述してください。
+      var promise = new Promise(function(resolve, reject){
+        reject('rejected!');
+      });
+      promise.catch(function(msg){
+        expect(msg).to.equal('rejected!');
+        testDone();
+      });
 
 
     });
@@ -38,7 +45,8 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       var promise3 = createWaitPromise(messageFragments[2], 30);
 
       // 作成した promise を promise 変数に代入してください。
-      var promise = 'change me!';
+      // var promise = [promise1, promise2, promise3];
+      var promise = Promise.all([promise1, promise2, promise3]);
 
 
       return expect(promise).to.eventually.deep.equal(messageFragments);
@@ -52,7 +60,7 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       var promise3 = createWaitPromise(messageFragments[2], 30);
 
       // 作成した promise を promise 変数に代入してください。
-      var promise = 'change me!';
+      var promise = Promise.race([promise1, promise2, promise3]);
 
 
       return expect(promise).to.eventually.equal(messageFragments[1]);
@@ -69,10 +77,9 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       //
       // ここに下記のコードを記述してください。
       //
-      // var promisedFriends = fetch(api + username).then(function(res) {
-      //   return res.json();
-      // });
-
+      var promisedFriends = fetch(api + username).then(function(res) {
+        return res.json();
+      });
 
       return expect(promisedFriends).to.eventually.have.length(1)
         .and.have.members(['PYXC-PJ']);
@@ -84,8 +91,9 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       var username = 'Shen';
 
       // 作成した promise を promisedFriends 変数に代入してください。
-      var promisedFriends = 'change me!';
-
+      var promisedFriends = fetch(api + username).then(function(res){
+        return res.json();
+      });
 
       return expect(promisedFriends).to.eventually.have.length(2)
         .and.have.members(['jisp', 'TeJaS']);
@@ -97,11 +105,26 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
       var username = 'Shen';
 
       // 作成した promise を promisedFriends 変数に代入してください。
-      var promisedFriends = 'change me!';
+      var promisedFriends1 = fetch(api + username).then(function(res){
+        // console.log(res.json());
+        return res.json();
+      });
+
+      var array = [];
+      for(var i = 0; i<promisedFriends1.length; i++){
+        array.push(
+          fetch(api + promisedFriends1[i]).then(function(res){
+            return res.json();
+          })
+          );
+      }
+
+      var promisedFriends = Promise.all(array);
 
 
       return expect(promisedFriends).to.eventually.have.length(1)
         .and.have.members(['TypeScript']);
+
     });
 
 
@@ -125,9 +148,17 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
 
 
     it('Github の mixi-inc の organization の情報を取得できる', function() {
+      // var api = 'https://api.github.com/orgs/mixi-inc';
+      // var req = 'organization';
+      var api = 'https://api.github.com/orgs/mixi-inc';
+
+      var promisedOrg = fetch(api).then(function(res){
+        // console.log(res.json());
+        return res.json();
+      });
 
       // 作成した promise を mixiOrg 変数に代入してください。
-      var mixiOrg = 'change me!';
+      var mixiOrg = promisedOrg;
 
       return expect(mixiOrg).to.eventually.have.property('id', 1089312);
 
@@ -138,9 +169,15 @@ describe('ステージ5（意図通りに非同期処理を利用できる）', 
 
     it('Github API を使って、mixi-inc/JavaScriptTraining の情報を取得できる', function() {
       var repository = 'mixi-inc/JavaScriptTraining';
+      var api = 'https://api.github.com/repos/';
+
+      var promisedOrg = fetch(api + repository).then(function(res){
+        // console.log(res.json());
+        return res.json();
+      });
 
       // 作成した promise を mixiRepo 変数に代入してください。
-      var mixiRepo = 'change me!';
+      var mixiRepo = promisedOrg;
 
 
       return expect(mixiRepo).to.eventually.have.property('full_name', repository);

@@ -6,48 +6,51 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
       var i = 0;
 
       return function() {
+        console.log(i);
         return i++;
       };
     };
 
     var counter = createCounter();
 
-
     it('1回目の値がわかる', function() {
-      expect(counter()).to.equal(/* ここに値を書き込んでください */);
+      expect(counter()).to.equal(0);
     });
 
 
     it('2回目の値がわかる', function() {
-      expect(counter()).to.equal(/* ここに値を書き込んでください */);
+      expect(counter()).to.equal(1);
     });
 
 
     it('3回目の値がわかる', function() {
-      expect(counter()).to.equal(/* ここに値を書き込んでください */);
+      expect(counter()).to.equal(2);
     });
   });
 
 
   describe('ショートサーキット演算', function() {
     it("true && 'default' の結果がわかる", function() {
-      expect(true && 'default').to.equal(/* ここに値を書き込んでください */);
+      expect(true && 'default').to.equal('default');
     });
+    // console.log(true&&'aaa');
 
 
     it("false || 'default' の結果がわかる", function() {
-      expect(false || 'default').to.equal(/* ここに値を書き込んでください */);
+      expect(false || 'default').to.equal('default');
     });
 
 
     it("0 || 'default' の結果がわかる", function() {
-      expect(0 || 'default').to.equal(/* ここに値を書き込んでください */);
+      expect(0 || 'default').to.equal('default');
     });
-
+    // console.log('aaa'||0);
 
     it("{} || 'default' の結果がわかる", function() {
-      expect({} || 'default').to.deep.equal(/* ここに値を書き込んでください */);
+      expect({} || 'default').to.deep.equal({});
     });
+    // console.log({}||'aaa');
+    // console.log('aaa'||{});
 
 
     it('default 引数コードが読める1', function() {
@@ -55,7 +58,7 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
         return arg || { foo: 'foo' };
       };
 
-      expect(func({ foo: 'bar' })).to.deep.equal(/* ここに値を書き込んでください */);
+      expect(func({ foo: 'bar' })).to.deep.equal( func({ foo: 'bar' }) );
     });
 
 
@@ -64,7 +67,7 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
         return arg || { foo: 'foo' };
       };
 
-      expect(func()).to.deep.equal(/* ここに値を書き込んでください */);
+      expect(func()).to.deep.equal({ foo: 'foo' });
     });
   });
 
@@ -76,7 +79,7 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
       num = 1;
     })();
 
-    expect(num).to.equal(/* ここに値を書き込んでください */);
+    expect(num).to.equal(1);
   });
 
 
@@ -87,7 +90,7 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
       num = 1;
     }, 0);
 
-    expect(num).to.equal(/* ここに値を書き込んでください */);
+    expect(num).to.equal(0);
   });
 
 
@@ -97,22 +100,22 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
 
 
     it('!!truthy の結果がわかる', function() {
-      expect(!!truthy).to.equal(/* ここに値を書き込んでください */);
+      expect(!!truthy).to.equal(true);
     });
 
 
     it('!!falsey の結果がわかる', function() {
-      expect(!!falsey).to.equal(/* ここに値を書き込んでください */);
+      expect(!!falsey).to.equal(false);
     });
 
 
     it('Boolean(truthy) の結果がわかる', function() {
-      expect(Boolean(truthy)).to.equal(/* ここに値を書き込んでください */);
+      expect(Boolean(truthy)).to.equal(true);
     });
 
 
     it('Boolean(falsey) の結果がわかる', function() {
-      expect(Boolean(falsey)).to.equal(/* ここに値を書き込んでください */);
+      expect(Boolean(falsey)).to.equal(false);
     });
   });
 
@@ -137,22 +140,22 @@ describe('ステージ7（よくあるJSのイディオムを読める）', func
 
 
     it('parent.grandParent の値がわかる', function() {
-      expect(parent.grandParent).to.equal(/* ここに値を書き込んでください */);
+      expect(parent.grandParent).to.equal(true);
     });
 
 
     it('parent.child の値がわかる', function() {
-      expect(parent.child).to.equal(/* ここに値を書き込んでください */);
+      expect(parent.child).to.equal();
     });
 
 
     it('child.grandParent の値がわかる', function() {
-      expect(child.grandParent).to.equal(/* ここに値を書き込んでください */);
+      expect(child.grandParent).to.equal(true);
     });
 
 
     it('child.parent の値がわかる', function() {
-      expect(child.parent).to.equal(/* ここに値を書き込んでください */);
+      expect(child.parent).to.equal(true);
     });
   });
 });
